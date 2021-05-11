@@ -167,7 +167,7 @@ CXX = arm-vita-eabi-g++
 AR = arm-vita-eabi-ar
 
 CFLAGS = $(GLOBAL_CFLAGS) -fPIC -Wl,-q -Wall -O3 -ffat-lto-objects -flto -fno-strict-aliasing -I. -I../.. -I../helper
-CXXFLAGS = $(CFLAGS) -fexceptions -fno-rtti -Werror -D__CLEANUP_CXX
+CXXFLAGS = $(CFLAGS) -fexceptions -fno-rtti -Werror -DPTE_CLEANUP_CXX
 ASFLAGS = $(CFLAGS)
 
 ifeq ($(CLEANUP_TYPE),CPP)
@@ -185,11 +185,15 @@ endif
 $(TARGET_LIB): $(OBJS)
 	$(AR) -rc $@ $^
 
-all: $(TARGET_LIB)
+$(TARGET_LIB_S): $(OBJS)
+	$(CC) -shared -o $@ $^
+
+all: $(TARGET_LIB) $(TARGET_LIB_S)
 
 clean:
-	rm -rf $(TARGET_LIB) $(OBJS)
+	rm -rf $(TARGET_LIB) $(TARGET_LIB_S) $(OBJS)
 
-install: $(TARGET_LIB)
+install: $(TARGET_LIB) $(TARGET_LIB_S)
 	@install -d $(DESTDIR)$(PREFIX)/lib
 	@install -m644 $(TARGET_LIB) $(PREFIX)$(PSPDIR)/lib
+	@install -m644 $(TARGET_LIB_S) $(PREFIX)$(PSPDIR)/lib
