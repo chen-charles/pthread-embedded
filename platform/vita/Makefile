@@ -186,7 +186,7 @@ $(TARGET_LIB): $(OBJS)
 	$(AR) -rc $@ $^
 
 $(TARGET_LIB_S): $(OBJS)
-	$(CC) -shared -o $@ $^
+	$(CC) -shared -o $@ $^ -nostdlib -Wl,--start-group -lm -lc -lgcc -Wl,--end-group
 
 all: $(TARGET_LIB) $(TARGET_LIB_S)
 
