@@ -312,3 +312,12 @@ int ftime(struct timeb *tb)
 
     return 0;
 }
+
+void __psp2cldr_init_pthread(void)
+{
+    if (pthread_init() != PTE_TRUE)
+		exit(0x12345678);
+}
+
+// pthread does not terminate at a per-thread basis
+// void __psp2cldr_fini_pthread(void) {}
