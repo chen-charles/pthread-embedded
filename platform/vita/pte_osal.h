@@ -7,6 +7,4 @@
 
 #include "pte_generic_osal.h"
 
-
-
 #endif // _OS_SUPPORT_H

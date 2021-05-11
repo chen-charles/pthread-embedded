@@ -45,7 +45,7 @@
  * See the comments at the top of pthread_cond_wait.c.
  */
 
-#include "pthread.h"
+#include <pthread.h>
 #include "implement.h"
 
 static int

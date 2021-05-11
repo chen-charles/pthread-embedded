@@ -26,39 +26,23 @@
  *      59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
  */
 
-#include <psp2/types.h>
+typedef int pte_osThreadHandle;
 
-typedef SceUID pte_osThreadHandle;
+typedef int pte_osSemaphoreHandle;
 
-typedef SceUID pte_osSemaphoreHandle;
-
-typedef SceUID pte_osMutexHandle;
-
+typedef int pte_osMutexHandle;
 
 #define OS_IS_HANDLE_VALID(x) ((x) > 0)
-
-
-
 
 #define OS_MAX_SIMUL_THREADS 10
 
 #define OS_DEFAULT_PRIO 160
 
-#define OS_MIN_PRIO 160-10
-#define OS_MAX_PRIO 160+11
+#define OS_MIN_PRIO 160 - 10
+#define OS_MAX_PRIO 160 + 11
 
 #define HAVE_THREAD_SAFE_ERRNO
 
 #define POLLING_DELAY_IN_us 100
 
 #define OS_MAX_SEM_VALUE 254
-
-int PspInterlockedExchange(int *ptarg, int val);
-int PspInterlockedCompareExchange(int *pdest, int exchange, int comp);
-int  PspInterlockedExchangeAdd(int volatile* pAddend, int value);
-int PspInterlockedDecrement(int *pdest);
-int PspInterlockedIncrement(int *pdest);
-
-
-
-

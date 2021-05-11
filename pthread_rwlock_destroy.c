@@ -44,7 +44,7 @@
 #include <errno.h>
 #include <limits.h>
 
-#include "pthread.h"
+#include <pthread.h>
 #include "implement.h"
 
 int

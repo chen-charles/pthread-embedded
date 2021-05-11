@@ -49,9 +49,9 @@
 
 #include "pte_osal.h"
 
-#include "pthread.h"
-#include "sched.h"
-#include "semaphore.h"
+#include <pthread.h>
+#include <sys/sched.h>
+#include <sys/semaphore.h>
 
 //#include <windows.h>
 

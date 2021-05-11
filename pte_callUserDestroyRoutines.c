@@ -44,7 +44,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "pthread.h"
+#include <pthread.h>
 #include "implement.h"
 
 #include <pte_osal.h>

@@ -5,6 +5,7 @@ CLEANUP_TYPE=C
 VPATH = ../..:../helper
 
 TARGET_LIB = libpthread.a
+TARGET_LIB_S = libpthread.so
 
 
 MUTEX_OBJS = \
@@ -165,11 +166,11 @@ CC = arm-vita-eabi-gcc
 CXX = arm-vita-eabi-g++
 AR = arm-vita-eabi-ar
 
-CFLAGS = $(GLOBAL_CFLAGS) -Wl,-q -Wall -O3 -ffat-lto-objects -flto -fno-strict-aliasing -I. -I../.. -I../helper
+CFLAGS = $(GLOBAL_CFLAGS) -fPIC -Wl,-q -Wall -O3 -ffat-lto-objects -flto -fno-strict-aliasing -I. -I../.. -I../helper
 CXXFLAGS = $(CFLAGS) -fexceptions -fno-rtti -Werror -D__CLEANUP_CXX
 ASFLAGS = $(CFLAGS)
 
-ifeq ($(CLEANUP_TYPE),CPPXX)
+ifeq ($(CLEANUP_TYPE),CPP)
 
 pte_throw.o: pte_throw.c
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(INCLUDES) $(TARGET_ARCH) \
@@ -192,6 +193,3 @@ clean:
 install: $(TARGET_LIB)
 	@install -d $(DESTDIR)$(PREFIX)/lib
 	@install -m644 $(TARGET_LIB) $(PREFIX)$(PSPDIR)/lib
-	@install -d $(DESTDIR)$(PREFIX)/include
-	@install -m644 *.h $(DESTDIR)$(PREFIX)/include
-	@install -m644 ../../*.h $(DESTDIR)$(PREFIX)/include
