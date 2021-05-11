@@ -45,9 +45,9 @@
 
 #include "pte_osal.h"
 
-#include "pthread.h"
+#include <pthread.h>
 #include "implement.h"
-#include "sched.h"
+#include <sys/sched.h>
 
 int
 sched_yield (void)

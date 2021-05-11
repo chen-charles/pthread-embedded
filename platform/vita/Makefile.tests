@@ -4,7 +4,7 @@ CLEANUP_TYPE=C
 
 VPATH = ../../tests
 
-TARGET = pthread-psp-test
+TARGET = pthread-vita-test
 
 MUTEX_TEST_OBJS = \
   mutex1.o \
@@ -165,31 +165,30 @@ EXCEPTION_TEST_OBJS = \
   exception2.o \
   exception3.o
 
+OS_OBJS = \
+  main.o
 
 
-OBJS = $(MUTEX_TEST_OBJS) $(MISC_OBJS) $(MISC_TEST_OBJS) $(THREAD_TEST_OBJS) $(SEM_TEST_OBJS) $(BARRIER_TEST_OBJS) $(SPIN_TEST_OBJS) $(CONDVAR_TEST_OBJS) $(RWLOCK_TEST_OBJS) $(CANCEL_TEST_OBJS) $(BENCH_TEST_OBJS) $(EXCEPTION_TEST_OBJS)
+OBJS = $(MUTEX_TEST_OBJS) $(MISC_OBJS) $(MISC_TEST_OBJS) $(THREAD_TEST_OBJS) $(SEM_TEST_OBJS) $(BARRIER_TEST_OBJS) $(SPIN_TEST_OBJS) $(CONDVAR_TEST_OBJS) $(RWLOCK_TEST_OBJS) $(CANCEL_TEST_OBJS) $(BENCH_TEST_OBJS) $(EXCEPTION_TEST_OBJS) $(OS_OBJS)
+
+
+PREFIX ?= ${VITASDK}/arm-vita-eabi
+CC = arm-vita-eabi-gcc
+CXX = arm-vita-eabi-g++
+AR = arm-vita-eabi-ar
 
 
 INCDIR = 
-CFLAGS = $(GLOBAL_CFLAGS) -O2 -Wall -g -I..  -fno-strict-aliasing  -I../.. -G0
+CFLAGS = $(GLOBAL_CFLAGS) -fPIC -O2 -Wall -g -I..  -fno-strict-aliasing  -I../.. -G0
 CXXFLAGS = $(CFLAGS) -fexceptions -fno-rtti
 ASFLAGS = $(CFLAGS)
 
 LDFLAGS = -L../..
-LIBS = -lc -lpthread-psp -lstdc++
+LIBS = -Wl,--start-group -lm -lc -lpthread -lgcc -Wl,--end-group
 
-ifeq ($(CLEANUP_TYPE),CPPXX)
+ifeq ($(CLEANUP_TYPE),CPP)
 
 LIBS += -lstdc++
-
-endif
-
-PSPSDK=$(shell psp-config --pspsdk-path)
-include $(PSPSDK)/lib/build.mak
-
-ifeq ($(CLEANUP_TYPE),CPPXXX)
-
-CC=psp-g++
 
 exception1.o: exception1.c
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(INCLUDES) $(TARGET_ARCH) \
@@ -204,9 +203,5 @@ exception3.o: exception3.c
 	  -c ../../tests/exception3.c -o exception3.o
 endif
 
-
-install: $(TARGET_LIB)
-	@cp -v $(TARGET_LIB) `psp-config --psp-prefix`/lib
-	@cp -v *.h `psp-config --psp-prefix`/include
-	@echo "Done."
-
+$(TARGET): $(OBJS)
+	$(CC) -shared -o $@ $^ $(LIBS)

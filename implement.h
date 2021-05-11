@@ -54,8 +54,8 @@
 #include "pte_osal.h"
 
 /* use local include files during development */
-#include "semaphore.h"
-#include "sched.h"
+#include <sys/semaphore.h>
+#include <sys/sched.h>
 
 
 typedef enum

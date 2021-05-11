@@ -45,7 +45,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "pthread.h"
+#include <pthread.h>
 #include "implement.h"
 
 extern unsigned int _pthread_stack_default_user __attribute__((weak));

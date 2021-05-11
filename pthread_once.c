@@ -41,7 +41,7 @@
  */
 
 #include "pte_osal.h"
-#include "pthread.h"
+#include <pthread.h>
 #include "implement.h"
 
 #define PTE_ONCE_STARTED 1

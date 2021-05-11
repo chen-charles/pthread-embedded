@@ -42,7 +42,7 @@
 
 #include <pte_osal.h>
 
-#include "pthread.h"
+#include <pthread.h>
 #include "implement.h"
 
 typedef long long int64_t;

@@ -43,9 +43,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "pthread.h"
+#include <pthread.h>
 #include "implement.h"
-#include "sched.h"
+#include <sys/sched.h>
 
 int
 pthread_attr_getschedparam (const pthread_attr_t * attr,
