@@ -1,7 +1,6 @@
 extern void pte_test_main();
 
-int main()
+static void __attribute__((constructor)) entry_point()
 {
   pte_test_main();
-  return 0;
 }
