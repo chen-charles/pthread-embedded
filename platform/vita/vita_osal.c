@@ -28,7 +28,7 @@
 
 #include "pte_osal.h"
 #include <pthread.h>
-#include <stdatomic.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -238,32 +238,27 @@ pte_osResult PSP2CLDR_STUB pte_osSemaphoreCancellablePend(pte_osSemaphoreHandle 
 
 int pte_osAtomicExchange(int *ptarg, int val)
 {
-    return atomic_exchange(ptarg, val);
+    return __atomic_exchange_n(ptarg, val, __ATOMIC_SEQ_CST);
 }
 
 int pte_osAtomicCompareExchange(int *pdest, int exchange, int comp)
 {
-    return __extension__({
-        (void)(memory_order_seq_cst);
-        (void)(memory_order_seq_cst);
-        (__sync_val_compare_and_swap(pdest,
-                                     comp, exchange));
-    });
+    return __atomic_compare_exchange_n(pdest, &comp, exchange, false, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST);
 }
 
 int pte_osAtomicExchangeAdd(int volatile *pAddend, int value)
 {
-    return atomic_fetch_add(pAddend, value);
+    return __atomic_fetch_add(pAddend, value, __ATOMIC_SEQ_CST);
 }
 
 int pte_osAtomicDecrement(int *pdest)
 {
-    return __sync_sub_and_fetch(pdest, 1);
+    return __atomic_sub_fetch(pdest, 1, __ATOMIC_SEQ_CST);
 }
 
 int pte_osAtomicIncrement(int *pdest)
 {
-    return __sync_add_and_fetch(pdest, 1);
+    return __atomic_add_fetch(pdest, 1, __ATOMIC_SEQ_CST);
 }
 
 /****************************************************************************
@@ -316,7 +311,7 @@ int ftime(struct timeb *tb)
 void __psp2cldr_init_pthread(void)
 {
     if (pthread_init() != PTE_TRUE)
-		exit(0x12345678);
+        exit(0x12345678);
 }
 
 // pthread does not terminate at a per-thread basis
