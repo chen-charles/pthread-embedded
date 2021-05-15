@@ -177,9 +177,9 @@ int pthread_test_condvar3_1()
 
   for (i = NUMTHREADS/3; i <= 2*NUMTHREADS/3; i++)
     {
-//      assert(pthread_mutex_lock(&mutex) == 0);
+     assert(pthread_mutex_lock(&mutex) == 0);
       assert(pthread_cond_signal(&cv) == 0);
-//      assert(pthread_mutex_unlock(&mutex) == 0);
+     assert(pthread_mutex_unlock(&mutex) == 0);
 
       signaled++;
     }
