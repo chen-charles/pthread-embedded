@@ -182,7 +182,7 @@ CXXFLAGS = $(CFLAGS) -fexceptions -fno-rtti
 ASFLAGS = $(CFLAGS)
 
 LDFLAGS = -L../..
-LIBS = -Wl,--start-group -lm -lc -lpthread -lgcc -Wl,--end-group
+LIBS = -pthread
 
 ifeq ($(CLEANUP_TYPE),CPP)
 
