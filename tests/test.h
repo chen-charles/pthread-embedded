@@ -56,7 +56,7 @@
 //#include <windows.h>
 
 
-#define PTW32_THREAD_NULL_ID {NULL,0}
+#define PTW32_THREAD_NULL_ID 0
 
 #if defined(__MINGW32__)
 #include <stdint.h>
