@@ -266,24 +266,26 @@ int pte_osAtomicIncrement(int *pdest)
  *
  ***************************************************************************/
 
-pte_osResult PSP2CLDR_STUB pte_osTlsSetValue(unsigned int key, void *value)
+pte_osResult pte_osTlsSetValue(unsigned int key, void *value)
 {
-    UDF_TRAP;
+    return __psp2cldr__internal_tls_setvalue(key, value);
 }
 
-void *PSP2CLDR_STUB pte_osTlsGetValue(unsigned int index)
+void *pte_osTlsGetValue(unsigned int index)
 {
-    UDF_TRAP;
+    return __psp2cldr__internal_tls_getvalue(index);
 }
 
-pte_osResult PSP2CLDR_STUB pte_osTlsAlloc(unsigned int *pKey)
+pte_osResult pte_osTlsAlloc(unsigned int *pKey)
 {
-    UDF_TRAP;
+    *pKey = __psp2cldr__internal_tls_alloc();
+    return PTE_OS_OK;
 }
 
-pte_osResult PSP2CLDR_STUB pte_osTlsFree(unsigned int index)
+pte_osResult pte_osTlsFree(unsigned int index)
 {
-    UDF_TRAP;
+    __psp2cldr__internal_tls_free(index);
+    return PTE_OS_OK;
 }
 
 /****************************************************************************
@@ -310,7 +312,7 @@ int ftime(struct timeb *tb)
 void __psp2cldr_init_pthread(void)
 {
     if (pthread_init() != PTE_TRUE)
-        exit(0x12345678);
+        __psp2cldr__internal_panic("pthread_init failed");
 }
 
 // pthread does not terminate at a per-thread basis
