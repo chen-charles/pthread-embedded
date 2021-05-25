@@ -77,6 +77,8 @@ int pthread_test_spin4()
       return 0;
     }
 
+  lock = PTHREAD_SPINLOCK_INITIALIZER;
+
   assert(pthread_spin_lock(&lock) == 0);
 
   assert(pthread_create(&t, NULL, func, NULL) == 0);
