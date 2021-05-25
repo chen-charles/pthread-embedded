@@ -55,7 +55,6 @@
 
 #include <sys/psp2cldr_common.h>
 #include <sys/psp2cldr_internal.h>
-#include <sys/psp2cldr_tls.h>
 
 static inline int invert_priority(int priority)
 {
