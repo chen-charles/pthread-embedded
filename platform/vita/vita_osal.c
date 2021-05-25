@@ -28,7 +28,7 @@
 
 #include "pte_osal.h"
 #include <pthread.h>
-
+#include <stdatomic.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -237,27 +237,33 @@ pte_osResult PSP2CLDR_STUB pte_osSemaphoreCancellablePend(pte_osSemaphoreHandle 
 
 int pte_osAtomicExchange(int *ptarg, int val)
 {
-    return __atomic_exchange_n(ptarg, val, __ATOMIC_SEQ_CST);
+    return atomic_exchange(ptarg, val);
 }
 
 int pte_osAtomicCompareExchange(int *pdest, int exchange, int comp)
 {
-    return __atomic_compare_exchange_n(pdest, &comp, exchange, 0, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST);
+    return __extension__(
+        {
+            (void)(memory_order_seq_cst);
+            (void)(memory_order_seq_cst);
+            (__sync_val_compare_and_swap(pdest,
+                                         comp, exchange));
+        });
 }
 
 int pte_osAtomicExchangeAdd(int volatile *pAddend, int value)
 {
-    return __atomic_fetch_add(pAddend, value, __ATOMIC_SEQ_CST);
+    return atomic_fetch_add(pAddend, value);
 }
 
 int pte_osAtomicDecrement(int *pdest)
 {
-    return __atomic_sub_fetch(pdest, 1, __ATOMIC_SEQ_CST);
+    return __sync_sub_and_fetch(pdest, 1);
 }
 
 int pte_osAtomicIncrement(int *pdest)
 {
-    return __atomic_add_fetch(pdest, 1, __ATOMIC_SEQ_CST);
+    return __sync_add_and_fetch(pdest, 1);
 }
 
 /****************************************************************************
