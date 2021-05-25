@@ -242,7 +242,7 @@ int pte_osAtomicExchange(int *ptarg, int val)
 
 int pte_osAtomicCompareExchange(int *pdest, int exchange, int comp)
 {
-    return __atomic_compare_exchange_n(pdest, &comp, exchange, false, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST);
+    return __atomic_compare_exchange_n(pdest, &comp, exchange, 0, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST);
 }
 
 int pte_osAtomicExchangeAdd(int volatile *pAddend, int value)
