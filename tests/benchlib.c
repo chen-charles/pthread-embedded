@@ -42,7 +42,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <sys/sched.h>
-#include <sys/semaphore.h>
+#include <semaphore.h>
 #include "benchtest.h"
 #include "implement.h"
 

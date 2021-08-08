@@ -51,7 +51,7 @@
 
 #include <pthread.h>
 #include <sys/sched.h>
-#include <sys/semaphore.h>
+#include <semaphore.h>
 
 //#include <windows.h>
 

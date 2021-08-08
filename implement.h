@@ -54,7 +54,7 @@
 #include "pte_osal.h"
 
 /* use local include files during development */
-#include <sys/semaphore.h>
+#include <semaphore.h>
 #include <sys/sched.h>
 
 

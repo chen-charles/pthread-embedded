@@ -51,7 +51,7 @@
 #include <stdlib.h>
 
 #include <pthread.h>
-#include <sys/semaphore.h>
+#include <semaphore.h>
 #include "implement.h"
 
 
