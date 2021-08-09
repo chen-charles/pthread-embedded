@@ -461,7 +461,7 @@ void pte_test_main()
     }
 
   printf("Running tests...\n");
-  for (i=0;i<2;i++)
+  for (i=0;i<20;i++)
     {
       printf("=========================\n");
       printf("   Test iteration #%d\n\n",i);
