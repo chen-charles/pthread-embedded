@@ -161,10 +161,11 @@ pthread_cancel (pthread_t thread)
               result = ESRCH;
             }
         }
-      else if (tp->state >= PThreadStateCanceling)
-        {
-          result = ESRCH;
-        }
+      // the standard does not return an error in this case
+      // else if (tp->state >= PThreadStateCanceling)
+      //   {
+      //     result = ESRCH;
+      //   }
 
       (void) pthread_mutex_unlock (&tp->cancelLock);
     }
