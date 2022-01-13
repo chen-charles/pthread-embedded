@@ -89,21 +89,23 @@ enum
 };
 
 typedef struct bag_t_ bag_t;
+
+static pthread_barrier_t barrier;
 struct bag_t_
-  {
-    int threadnum;
-    int started;
-    /* Add more per-thread state variables here */
-    int count;
-    pthread_t self;
-  };
+{
+  int threadnum;
+  int started;
+  /* Add more per-thread state variables here */
+  int count;
+  pthread_t self;
+};
 
 static bag_t threadbag[NUMTHREADS + 1];
 
 static int osThread(void * arg)
 {
   int result = 1;
-  bag_t * bag = *((bag_t **) arg);
+  bag_t * bag = (bag_t *) arg;
 
   assert(bag == &threadbag[bag->threadnum]);
   assert(bag->started == 0);
@@ -112,6 +114,9 @@ static int osThread(void * arg)
   assert((bag->self = pthread_self()) != NULL);
   assert(pthread_kill(bag->self, 0) == 0);
 
+  int wait_result = pthread_barrier_wait(&barrier);
+  assert(wait_result == PTHREAD_BARRIER_SERIAL_THREAD || wait_result == 0);
+  
   /*
    * Doesn't return.
    */
@@ -120,52 +125,37 @@ static int osThread(void * arg)
   return 0;
 }
 
-
-
 int pthread_test_exit5()
 {
   int failed = 0;
   int i;
-  pte_osThreadHandle h[NUMTHREADS + 1];
+  pthread_t h[NUMTHREADS + 1];
+
+  assert(pthread_barrier_init(&barrier, NULL, NUMTHREADS + 1) == 0);
 
   for (i = 1; i <= NUMTHREADS; i++)
-    {
-      void *ptr;
-
+  {
       threadbag[i].started = 0;
       threadbag[i].threadnum = i;
+      threadbag[i].count = 0;
 
-      ptr = &(threadbag[i]);
+      assert(pthread_create(&h[i], NULL, osThread, &(threadbag[i])) == 0);
+  }
 
-      pte_osThreadCreate(osThread, 4096, 10,
-                         &ptr,
-                         &h[i]);
-
-      pte_osThreadStart(h[i]);
-    }
-
-  /*
-   * Code to control or munipulate child threads should probably go here.
-   */
-  pte_osThreadSleep(500);
-
-
-  /*
-   * Give threads time to run.
-   */
-  pte_osThreadSleep(NUMTHREADS * 100);
+  int wait_result = pthread_barrier_wait(&barrier);
+  assert(wait_result == PTHREAD_BARRIER_SERIAL_THREAD || wait_result == 0);
 
   /*
    * Standard check that all threads started.
    */
   for (i = 1; i <= NUMTHREADS; i++)
-    {
-      if (!threadbag[i].started)
-        {
-          failed |= !threadbag[i].started;
-          fprintf(stderr, "Thread %d: started %d\n", i, threadbag[i].started);
-        }
-    }
+  {
+    if (!threadbag[i].started)
+      {
+        failed |= !threadbag[i].started;
+        fprintf(stderr, "Thread %d: started %d\n", i, threadbag[i].started);
+      }
+  }
 
   assert(!failed);
 
@@ -178,13 +168,8 @@ int pthread_test_exit5()
       int fail = 0;
       int result = 0;
 
-      /*
-       * Can't get a result code.
-       */
-      result = 1;
-
-      // seems not implemented by pthread-embedded
-      // assert(threadbag[i].self != NULL && pthread_kill(threadbag[i].self, 0) == ESRCH);
+      assert(threadbag[i].self == h[i]);
+      pthread_join(h[i], &result);
 
       fail = (result != 1);
 
@@ -199,6 +184,8 @@ int pthread_test_exit5()
     }
 
   assert(!failed);
+
+   assert(pthread_barrier_destroy(&barrier) == 0);
 
   /*
    * Success.
