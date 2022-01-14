@@ -127,7 +127,7 @@ int pthread_test_bench3()
   /*
    * Time the loop overhead so we can subtract it from the actual test times.
    */
-
+  overHeadMilliSecs = 0;
   TESTSTART
   TESTSTOP
 

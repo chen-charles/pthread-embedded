@@ -161,7 +161,7 @@ int pthread_test_bench2()
   /*
    * Time the loop overhead so we can subtract it from the actual test times.
    */
-
+  overHeadMilliSecs = 0;
   running = 1;
   assert(pthread_create(&worker, NULL, overheadThread, NULL) == 0);
   TESTSTART

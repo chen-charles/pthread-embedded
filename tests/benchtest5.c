@@ -121,7 +121,7 @@ main (int argc, char *argv[])
   /*
    * Time the loop overhead so we can subtract it from the actual test times.
    */
-
+  overHeadMilliSecs = 0;
   TESTSTART
   assert(1 == one);
   TESTSTOP
