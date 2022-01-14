@@ -123,7 +123,7 @@ static int osThread(void * arg)
   return 0;
 }
 
-int pthread_test_exit5()
+int pthread_test_exit4()
 {
   int failed = 0;
   int i;
