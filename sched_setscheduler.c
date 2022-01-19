@@ -45,7 +45,7 @@
 #include <sys/sched.h>
 
 int
-sched_setscheduler (pid_t pid, int policy)
+sched_setscheduler (pid_t pid, int policy, const struct sched_param *param)
 {
   errno = EPERM;
   return -1;
