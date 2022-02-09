@@ -242,6 +242,21 @@ int pte_osThreadGetMinPriority();
  */
 int pte_osThreadGetDefaultPriority();
 
+#ifdef PTE_SUPPORT_ASYNC_CANCEL
+/**
+ * Asynchronously cancel the specified thread.
+ *
+ * @param threadHandle handle of thread to check the state of.
+ * @param handlerFunction target thread's control should be transferred to handlerFunction
+ * @param arg argument to the handler function
+ *
+ * @return PTE_OS_OK - cancellation request has been queued successfully
+ * @return PTE_OS_INVALID_PARAM - the specified thread handle is invalid
+ * @return PTE_OS_GENERAL_FAILURE - operation not supported, EPERM will be returned
+ */
+pte_osResult pte_osThreadAsyncCancel(pte_osThreadHandle threadHandle, void (*handlerFunction)(unsigned int), unsigned int arg);
+#endif
+
 //@}
 
 
