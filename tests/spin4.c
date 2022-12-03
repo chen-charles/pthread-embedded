@@ -77,6 +77,7 @@ int pthread_test_spin4()
       return 0;
     }
 
+  washere = 0;
   lock = PTHREAD_SPINLOCK_INITIALIZER;
 
   assert(pthread_spin_lock(&lock) == 0);
