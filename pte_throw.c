@@ -90,7 +90,7 @@ pte_throw (unsigned int exception)
         }
 
       pte_thread_detach_and_exit_np ();
-
+      (void)exitCode;
 //      pte_osThreadExit((void*)exitCode);
 
     }
