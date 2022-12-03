@@ -167,7 +167,7 @@ CXX = arm-vita-eabi-g++
 AR = arm-vita-eabi-ar
 
 CFLAGS = $(GLOBAL_CFLAGS) -fPIC -Wl,-q -Wall -O3 -ffat-lto-objects -flto -fno-strict-aliasing -I. -I../.. -I../helper -DPTE_SUPPORT_ASYNC_CANCEL
-CXXFLAGS = $(CFLAGS) -fexceptions -fno-rtti -Werror -DPTE_CLEANUP_CXX
+CXXFLAGS = $(CFLAGS) -fexceptions -fno-rtti -Werror
 ASFLAGS = $(CFLAGS)
 
 ifeq ($(CLEANUP_TYPE),CPP)
