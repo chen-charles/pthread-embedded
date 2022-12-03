@@ -161,6 +161,13 @@ int pte_osThreadGetDefaultPriority()
     return 160;
 }
 
+#ifdef PTE_SUPPORT_ASYNC_CANCEL
+pte_osResult PSP2CLDR_STUB pte_osThreadAsyncCancel(pte_osThreadHandle threadHandle, void (*handlerFunction)(unsigned int), unsigned int arg)
+{
+    UDF_TRAP;
+}
+#endif
+
 /****************************************************************************
  *
  * Mutexes

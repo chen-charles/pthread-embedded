@@ -141,7 +141,8 @@ int pthread_test_cancel6a()
   for (i = 1; i <= NUMTHREADS; i++)
     {
       assert(pthread_cancel(t[i]) == 0);
-      assert(pthread_cancel(t[i]) == ESRCH);
+      // the standard does not return an error in this case
+      assert(pthread_cancel(t[i]) == 0);
     }
 
   /*

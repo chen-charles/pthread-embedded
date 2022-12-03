@@ -141,10 +141,25 @@ pthread_cancel (pthread_t thread)
            * Note that most of the async cancellation code is still in here if anyone
            * wanted to add the OS/platform specific stuff.
            */
-          (void) pthread_mutex_unlock (&tp->cancelLock);
-
+#ifdef PTE_SUPPORT_ASYNC_CANCEL
+          pte_osResult cancelStatus;
+          cancelStatus = pte_osThreadAsyncCancel(tp->threadId, &pte_throw, PTE_EPS_CANCEL);
+          if (cancelStatus == PTE_OS_OK)
+          {
+            result = 0;
+          }
+          else if (cancelStatus == PTE_OS_INVALID_PARAM)
+          {
+            result = ESRCH;
+          }
+          else
+          {
+            result = EPERM;
+          }
+#else
           result = EPERM;
-
+#endif
+          (void) pthread_mutex_unlock (&tp->cancelLock);
         }
     }
   else

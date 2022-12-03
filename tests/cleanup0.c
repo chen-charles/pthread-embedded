@@ -150,6 +150,8 @@ int pthread_test_cleanup0()
   int i;
   pthread_t t[NUMTHREADS + 1];
 
+  pop_count.i = 0;
+  pop_count.null = 0;
   pte_osMutexCreate(&pop_count.cs);
 
   assert((t[0] = pthread_self()) != NULL);
