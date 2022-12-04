@@ -177,7 +177,7 @@ AR = arm-vita-eabi-ar
 
 
 INCDIR = 
-CFLAGS = $(GLOBAL_CFLAGS) -fPIC -O2 -Wall -g -I.. -I. -fno-strict-aliasing  -I../.. -DPTE_SUPPORT_ASYNC_CANCEL
+CFLAGS = $(GLOBAL_CFLAGS) -fPIC -O2 -Wall -g -I.. -I. -fno-strict-aliasing  -I../.. -DPTE_SUPPORT_ASYNC_CANCEL -DPTE_CLEANUP_C
 CXXFLAGS = $(CFLAGS) -fexceptions -fno-rtti
 ASFLAGS = $(CFLAGS)
 
